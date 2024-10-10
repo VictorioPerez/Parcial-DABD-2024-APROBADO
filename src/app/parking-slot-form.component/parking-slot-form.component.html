@@ -1,0 +1,136 @@
+<form
+  class="row g-3 was-validated"
+  (ngSubmit)="onSubmit()"
+  #vehicleForm="ngForm"
+  novalidate
+>
+  <!-- Marca -->
+  <div class="col-md-4">
+    <label for="brandSelect" class="form-label">Marca</label>
+    <select
+      class="form-select"
+      id="brandSelect"
+      [(ngModel)]="vehicle.brand"
+      name="brand"
+      #brand="ngModel"
+      required
+    >
+      <option value="">Seleccione una marca</option>
+      @for (brand of brands; track $index) {
+      <option>{{ brand.name }}</option>
+      }
+    </select>
+    @if (brand.invalid && brand.touched) {
+    <div class="invalid-feedback">Marca es requerida.</div>
+    }
+  </div>
+
+  <!-- Modelo -->
+  <div class="col-md-4">
+    <label for="inputModel" class="form-label">Modelo</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputModel"
+      [(ngModel)]="vehicle.model"
+      name="model"
+      #model="ngModel"
+      minlength="3"
+    />
+    @if (model.invalid && model.touched) {
+    <div class="invalid-feedback">
+      El modelo debe tener al menos 3 caracteres.
+    </div>
+    }
+  </div>
+
+  <!-- Dominio -->
+  <div class="col-md-4">
+    <label for="inputDomain" class="form-label">Dominio</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputDomain"
+      [(ngModel)]="vehicle.domain"
+      name="domain"
+      #domain="ngModel"
+      [pattern]="vehicle.isNewDomain ? '.{7}' : '.{6}'"
+      required
+    />
+    @if (domain.invalid && domain.touched){
+    <div class="invalid-feedback">
+      El dominio debe tener {{ vehicle.isNewDomain ? "7" : "6" }} caracteres.
+    </div>
+    }
+  </div>
+
+  <!-- Hora de Ingreso -->
+  <div class="col-md-6">
+    <label for="checkInInputTime" class="form-label">Hora de Ingreso</label>
+    <input
+      type="text"
+      class="form-control"
+      id="checkInInputTime"
+      [(ngModel)]="vehicle.checkInTime"
+      name="checkInTime"
+      #checkInTime="ngModel"
+      required
+    />
+    @if (checkInTime.invalid && checkInTime.touched) {
+    <div>La hora de ingreso es requerida.</div>
+    }
+  </div>
+
+  <!-- Tipo de Vehículo -->
+  <div class="col-md-3">
+    <label for="vehicleTypeSelect" class="form-label">Tipo de Vehículo</label>
+    <select
+      class="form-select"
+      id="vehicleTypeSelect"
+      [(ngModel)]="vehicle.type"
+      name="type"
+      #type="ngModel"
+      required
+    >
+      <option value="">Seleccione un tipo</option>
+      @for ( type of vehicleTypes; track $index) {
+      <option [value]="type">
+        {{ type }}
+      </option>
+      }
+    </select>
+    @if (type.invalid && type.touched) {
+    <div class="invalid-feedback">Tipo de vehículo es requerido.</div>
+    }
+  </div>
+
+  <!-- Dominio Nuevo -->
+  <div class="col-12">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="newDomainCheck"
+        [(ngModel)]="vehicle.isNewDomain"
+        name="isNewDomain"
+      />
+      <label class="form-check-label" for="newDomainCheck">
+        ¿Nuevo dominio?
+      </label>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="col-12">
+    <button class="btn btn-secondary" type="button" (click)="onCancel()">
+      Cancelar
+    </button>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="vehicleForm.invalid"
+    >
+      Registrar ingreso
+    </button>
+  </div>
+</form>

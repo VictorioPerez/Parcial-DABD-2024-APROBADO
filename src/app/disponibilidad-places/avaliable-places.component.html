@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center mb-4">Estado del Estacionamiento</h2>
+    </div>
+  </div>
+  <div class="row">
+    @for (slot of parkingSlots; track slot.id) {
+    <div class="col-md-2 col-sm-3 col-4 mb-3">
+      <div class="card text-center" [ngClass]="{
+        'bg-success text-white': getSlotStatus(slot) === 'available',
+        'bg-danger text-white': getSlotStatus(slot) === 'full',
+      }">
+        <div class="card-body">
+          <i class="bi" [ngClass]="getSlotIcon(slot)"></i>
+          <h5 class="card-title mt-2">Plaza {{slot.id}}</h5>
+          <p class="card-text">{{slot.availableSpaces}}/8 disponibles</p>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
